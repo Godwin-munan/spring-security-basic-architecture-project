@@ -10,8 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class TokenAuthFilter extends OncePerRequestFilter {
 
@@ -26,15 +26,18 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 
         String token = request.getHeader("Authorization");
 
-        Authentication auth = new TokenAuthentication(token, null);
+
 
         try{
 
+            Authentication auth = new TokenAuthentication(token, null);
             Authentication authentication = manager.authenticate(auth);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request,response);
 
         }catch(AuthenticationException e){
+            response.setStatus(SC_UNAUTHORIZED);
             response.setHeader("Error", e.getMessage());
         }
 

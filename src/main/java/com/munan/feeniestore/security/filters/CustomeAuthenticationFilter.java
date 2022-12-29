@@ -14,20 +14,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
-//@Component
 public class CustomeAuthenticationFilter extends OncePerRequestFilter {
 
-    private  AppUserRepository userRepository;
-    private  OtpRepository otpRepository;
-    private  AuthenticationManager manager;
+    private final AppUserRepository userRepository;
+    private final OtpRepository otpRepository;
+    private final AuthenticationManager manager;
 
-    private  TokenManager tokenManager;
+    private final TokenManager tokenManager;
 
     public CustomeAuthenticationFilter(AppUserRepository userRepository,
                                        OtpRepository otpRepository,
